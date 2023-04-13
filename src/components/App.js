@@ -1,29 +1,61 @@
-import React, { useState } from "react";
-import { Route, Switch } from "react-router-dom";
-import Home from "./Home";
-import About from "./About";
-import Login from "./Login";
-import Navbar from "./Navbar";
+import React from "react";
+import { NavLink, useHistory } from "react-router-dom";
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const linkStyles = {
+  width: "100px",
+  padding: "12px",
+  margin: "0 6px 6px",
+  background: "blue",
+  textDecoration: "none",
+  color: "white",
+};
+
+function Navbar({ setIsLoggedIn }) {
+  const history = useHistory();
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+    history.push("/login");
+  }
 
   return (
     <div>
-      <Navbar setIsLoggedIn={setIsLoggedIn} />
-      <Switch>
-        <Route exact path="/about">
-          <About />
-        </Route>
-        <Route exact path="/login">
-          <Login setIsLoggedIn={setIsLoggedIn} />
-        </Route>
-        <Route exact path="/">
-          <Home isLoggedIn={isLoggedIn} />
-        </Route>
-      </Switch>
+      <NavLink
+        to="/"
+        /* set exact so it knows to only set activeStyle when route is deeply equal to link */
+        exact
+        /* add styling to Navlink */
+        style={linkStyles}
+        /* add prop for activeStyle */
+        activeStyle={{
+          background: "darkblue",
+        }}
+      >
+        Home
+      </NavLink>
+      <NavLink
+        to="/about"
+        exact
+        style={linkStyles}
+        activeStyle={{
+          background: "darkblue",
+        }}
+      >
+        About
+      </NavLink>
+      <NavLink
+        to="/login"
+        exact
+        style={linkStyles}
+        activeStyle={{
+          background: "darkblue",
+        }}
+      >
+        Login
+      </NavLink>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }
 
-export default App;
+export default Navbar;
